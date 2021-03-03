@@ -61,7 +61,7 @@ public void explicitScrollIntoView(WebDriver webDriver, WebElement elementToScro
 	WebDriver driver;
 	JavascriptExecutor js = (JavascriptExecutor) driver;  
 	
-	String BROWSER = System.getProperty("browser");
+	String BROWSER = "Chrome";//System.getProperty("browser");
 	@Before
 	public void setup() {
 		driver = SocleTechnique.choisirNavigateur(BROWSER);
@@ -78,71 +78,16 @@ public void explicitScrollIntoView(WebDriver webDriver, WebElement elementToScro
 
 	@Test
 	public void test() throws InterruptedException {
-		driver.get("https://fr.wowhead.com/");
+		driver.get("http://192.168.1.10:9017/HotelWebapp/");
 
-		// Instanciation Pagewelcome
-		WelcomePage page_welcome = PageFactory.initElements(driver, WelcomePage.class);
-		ResultsPage page_results = PageFactory.initElements(driver, ResultsPage.class);
+		driver.findElement(By.xpath("//select")).click();
+		driver.findElement(By.xpath("//option[@value='Paris']")).click();
+		driver.findElement(By.xpath("//button")).click();
+		WebElement verif_Street = driver.findElement(By.xpath("(//td)[1]"));
 		
-		page_welcome.accept_cookies.click();
-		page_welcome.refuse_notifications.click();
-		page_welcome.search_field.click();
-		page_welcome.search_field.sendKeys("Lardeur");;
-		page_welcome.search_button.click();
-		page_welcome.Lardeur_link.click();
+		assertTrue(verif_Street.getText().contains("Latin"));
 		
-		String newLine = System.getProperty("line.separator");
-		page_results.chahuteurs.click();
-		String test = page_results.objet_chahuteurs.getText();
-		System.out.println(newLine + "assert des chahuteurs");
-		System.out.println(test);
-		String[] words_chahuteurs = {"Niveau d'objet 57", "Lié quand ramassé", "Pieds Tissu", "Armure : 2", "+12 Intelligence","+18 Endurance", "Augmente votre score de hâte de +13", "+10 Versatilité", "Durabilité 60 / 60" };
-		
-		assertTrue(containsWords(test, words_chahuteurs));
-		
-		driver.navigate().back();
-		
-		page_results.chausses.click();
-		test = page_results.objet_chausses.getText();
-		System.out.println(newLine + "assert des chausses");
-		System.out.println(test);
-		String[] words_chausses = {"Niveau d'objet 57", "Lié quand ramassé", "Jambes", "Armure : 6", "+16 [Agilité or Intelligence]","+24 Endurance", "Augmente votre score de coup critique de +21", "+12 Versatilité", "Durabilité 95 / 95" };
-		
-		assertTrue(containsWords(test, words_chausses));
-		
-		driver.navigate().back();
-		
-		explicitScrollIntoView(driver, page_results.footer_overlay, false);
-		
-		Thread.sleep(3000);
-		
-		page_results.espauliers.click();
-		test = page_results.objet_espauliers.getText();
-		System.out.println(newLine + "assert des espauliers");
-		System.out.println(test);
-		String[] words_espauliers = {"Niveau d'objet 57", "Lié quand ramassé", "Épaule", "Armure : 10", "+12 [Force or Intelligence]","+18 Endurance", "Augmente votre score de coup critique de +9", "+15 Versatilité", "Durabilité 80 / 80" };
-		
-		assertTrue(containsWords(test, words_espauliers));
-		
-		driver.navigate().back();
-		
-		page_results.greves.click();
-		test = page_results.objet_greves.getText();
-		System.out.println(newLine + "assert des greves");
-		System.out.println(test);
-		String[] words_greves = {"Niveau d'objet 57", "Lié quand ramassé", "Jambes", "Armure : 8", "+16 [Agilité or Intelligence]","+24 Endurance", "Augmente votre score de coup critique de +19", "Augmente votre score de hâte de +12", "Durabilité 95 / 95" };
-		
-		assertTrue(containsWords(test, words_greves));
-		
-		driver.navigate().back();
-		
-		page_results.pioche.click();
-		test = page_results.objet_pioche.getText();
-		System.out.println(newLine + "assert des pioches");
-		System.out.println(test);
-		String[] words_pioche = {"Niveau d'objet 57", "Lié quand ramassé", "Deux mains", "(12.1 dégâts par seconde)", "+16 Force","+24 Endurance", "Augmente votre score de coup critique de +13", "Augmente votre score de hâte de +19", "Durabilité 90 / 90" };
-		
-		assertTrue(containsWords(test, words_pioche));
+		Thread.sleep(1000);
 		
 		
 		
